@@ -19,6 +19,8 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm test
-
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v4.1.7
+            
 
 
