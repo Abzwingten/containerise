@@ -19,7 +19,7 @@ jobs:
       - run: npm run lint
       - run: npm run build
       - run: npm test
-            - name: Checkout the repository
+      - name: Checkout the repository
         uses: actions/checkout@master
       - name: Generate the artifacts
         uses: skx/github-action-build@master
