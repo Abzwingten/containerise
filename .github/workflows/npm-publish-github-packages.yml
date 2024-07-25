@@ -31,12 +31,25 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           args: 'example-*'
+      - name: "web-ext build"
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: build
+          source: src
+          filename: "{name}-{version}.xpi"
+          ignoreFiles: '[ "package.json","package-lock.json","yarn.lock" ]'
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: target.xpi
+          path: ${{ steps.web-ext-build.outputs.target }}
       - uses: trmcnvn/firefox-addon@v1
         with:
           # uuid is only necessary when updating an existing addon,
           # omitting it will create a new addon
           uuid: ''
-          xpi: build/containerise.xpi
+          xpi: build/target.xpi
           manifest: manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
